@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Counter App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+        }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .counter-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .counter-display {
+            font-size: 6rem;
+            font-weight: 800;
+            color: #667eea;
+            margin: 30px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .counter-display.positive {
+            color: #48bb78;
+        }
+        
+        .counter-display.negative {
+            color: #f56565;
+        }
+        
+        .counter-display.zero {
+            color: #667eea;
+        }
+        
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .decrement-btn {
+            background: linear-gradient(135deg, #f56565 0%, #ed64a6 100%);
+            color: white;
+        }
+        
+        .decrement-btn:hover {
+            background: linear-gradient(135deg, #e53e3e 0%, #d53f8c 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(245, 101, 101, 0.3);
+        }
+        
+        .decrement-btn:active {
+            transform: translateY(0);
+        }
+        
+        .increment-btn {
+            background: linear-gradient(135deg, #48bb78 0%, #38b2ac 100%);
+            color: white;
+        }
+        
+        .increment-btn:hover {
+            background: linear-gradient(135deg, #38a169 0%, #319795 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(72, 187, 120, 0.3);
+        }
+        
+        .increment-btn:active {
+            transform: translateY(0);
+        }
+        
+        .reset-btn {
+            background: linear-gradient(135deg, #a0aec0 0%, #718096 100%);
+            color: white;
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .reset-btn:hover {
+            background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(113, 128, 150, 0.3);
+        }
+        
+        .reset-btn:active {
+            transform: translateY(0);
+        }
+        
+        .counter-info {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f7fafc;
+            border-radius: 10px;
+            color: #4a5568;
+            font-size: 0.9rem;
+        }
+        
+        .counter-info p {
+            margin: 5px 0;
+        }
+        
+        @media (max-width: 480px) {
+            .counter-container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .counter-display {
+                font-size: 4.5rem;
+            }
+            
+            .buttons-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="counter-container">
+        <h1>Simple Counter App</h1>
+        
+        <div id="counter" class="counter-display zero">0</div>
+        
+        <div class="buttons-container">
+            <button class="decrement-btn" onclick="decrement()">
+                <span>−</span> Decrement
+            </button>
+            <button class="increment-btn" onclick="increment()">
+                <span>+</span> Increment
+            </button>
+        </div>
+        
+        <button class="reset-btn" onclick="reset()">
+            Reset Counter
+        </button>
+        
+        <div class="counter-info">
+            <p><strong>Current Value:</strong> <span id="current-value">0</span></p>
+            <p><strong>Total Operations:</strong> <span id="total-ops">0</span></p>
+            <p><strong>Last Operation:</strong> <span id="last-op">None</span></p>
+        </div>
+    </div>
+
+    <script>
+        let counter = 0;
+        let totalOperations = 0;
+        let lastOperation = 'None';
+        
+        function updateCounter() {
+            const counterElement = document.getElementById('counter');
+            const currentValueElement = document.getElementById('current-value');
+            const totalOpsElement = document.getElementById('total-ops');
+            const lastOpElement = document.getElementById('last-op');
+            
+            counterElement.textContent = counter;
+            currentValueElement.textContent = counter;
+            totalOpsElement.textContent = totalOperations;
+            lastOpElement.textContent = lastOperation;
+            
+            // Update color based on value
+            counterElement.classList.remove('positive', 'negative', 'zero');
+            if (counter > 0) {
+                counterElement.classList.add('positive');
+            } else if (counter < 0) {
+                counterElement.classList.add('negative');
+            } else {
+                counterElement.classList.add('zero');
+            }
+            
+            // Add animation effect
+            counterElement.style.transform = 'scale(1.1)';
+            setTimeout(() => {
+                counterElement.style.transform = 'scale(1)';
+            }, 150);
+        }
+        
+        function increment() {
+            counter++;
+            totalOperations++;
+            lastOperation = 'Increment';
+            updateCounter();
+        }
+        
+        function decrement() {
+            counter--;
+            totalOperations++;
+            lastOperation = 'Decrement';
+            updateCounter();
+        }
+        
+        function reset() {
+            counter = 0;
+            totalOperations++;
+            lastOperation = 'Reset';
+            updateCounter();
+        }
+        
+        // Initialize
+        updateCounter();
+        
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', (event) => {
+            if (event.key === '+' || event.key === '=') {
+                increment();
+            } else if (event.key === '-' || event.key === '_') {
+                decrement();
+            } else if (event.key === 'r' || event.key === 'R') {
+                reset();
+            } else if (event.key === '0') {
+                counter = 0;
+                totalOperations++;
+                lastOperation = 'Keyboard Reset (0)';
+                updateCounter();
+            }
+        });
+        
+        // Add touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchStartY = 0;
+        
+        document.addEventListener('touchstart', (event) => {
+            touchStartX = event.touches[0].clientX;
+            touchStartY = event.touches[0].clientY;
+        });
+        
+        document.addEventListener('touchend', (event) => {
+            const touchEndX = event.changedTouches[0].clientX;
+            const touchEndY = event.changedTouches[0].clientY;
+            
+            const diffX = touchEndX - touchStartX;
+            const diffY = touchEndY - touchStartY;
+            
+            // Horizontal swipe (left/right) for increment/decrement
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+                if (diffX > 0) {
+                    // Swipe right = increment
+                    increment();
+                } else {
+                    // Swipe left = decrement
+                    decrement();
+                }
+            }
+            
+            // Vertical swipe down for reset
+            if (diffY > 100 && Math.abs(diffX) < 50) {
+                reset();
+            }
+        });
+    </script>
+</body>
+</html>

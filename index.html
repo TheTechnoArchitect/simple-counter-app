@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Counter App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            min-width: 300px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 40px;
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .counter-display {
+            font-size: 80px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+            line-height: 1;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 40px;
+        }
+
+        button {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: none;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-minus {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .btn-minus:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.4);
+        }
+
+        .btn-minus:active {
+            transform: scale(0.95);
+        }
+
+        .btn-plus {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .btn-plus:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-plus:active {
+            transform: scale(0.95);
+        }
+
+        .reset-btn {
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: #999;
+            border: none;
+            border-radius: 25px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .reset-btn:hover {
+            background: #777;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .reset-btn:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Counter App</h1>
+        <div class="counter-display" id="counter">0</div>
+        <div class="button-group">
+            <button class="btn-minus" onclick="decreaseCounter()">−</button>
+            <button class="btn-plus" onclick="increaseCounter()">+</button>
+        </div>
+        <button class="reset-btn" onclick="resetCounter()">Reset</button>
+    </div>
+
+    <script>
+        let count = 0;
+
+        function increaseCounter() {
+            count++;
+            updateDisplay();
+        }
+
+        function decreaseCounter() {
+            count--;
+            updateDisplay();
+        }
+
+        function resetCounter() {
+            count = 0;
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            document.getElementById('counter').textContent = count;
+        }
+    </script>
+</body>
+</html>
